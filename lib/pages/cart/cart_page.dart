@@ -1,4 +1,5 @@
 import 'package:ecoomerce_dbestech/controllers/auth_controller.dart';
+import 'package:ecoomerce_dbestech/controllers/locationController.dart';
 import 'package:ecoomerce_dbestech/controllers/popularProductsController.dart';
 import 'package:ecoomerce_dbestech/controllers/recomendedController.dart';
 import 'package:ecoomerce_dbestech/routes/routes_helper.dart';
@@ -275,11 +276,17 @@ class CartPage extends StatelessWidget {
                       //CartController.;
                       if (Get.find<AuthController>().isUserLoggedIn()) {
                         cartController.addHisrory();
+                        if(Get.find<LocationController>().addressList.isEmpty){
+Get.toNamed(RouteHelpler.getAddresssPage());
+
+                        }
+
                         print("check out sucess");
                       } else {
                         showCustomSnackBar("u need to sign in first");
                         Get.toNamed(RouteHelpler.getSignInPage());
                       }
+
                     },
                     child: BigText(
                       text: "check out",

@@ -1,6 +1,8 @@
 import 'package:ecoomerce_dbestech/controllers/auth_controller.dart';
+import 'package:ecoomerce_dbestech/controllers/locationController.dart';
 import 'package:ecoomerce_dbestech/controllers/userController.dart';
 import 'package:ecoomerce_dbestech/data/repositoreis/auth_repo.dart';
+import 'package:ecoomerce_dbestech/data/repositoreis/location_repo.dart';
 import 'package:ecoomerce_dbestech/data/repositoreis/user_repo.dart';
 
 import '/controllers/cart_controller.dart';
@@ -28,6 +30,7 @@ Future<void> init() async {
   Get.lazyPut(() => RecomendedProDuctRepo(apiClient: Get.find()));
   Get.put(CartRepo(sharedPreferences: Get.find()), permanent: true);
   Get.lazyPut(() => UserRepo(apiClient: Get.find()));
+  Get.lazyPut(() => LocationRepo(sharedPrefrences: Get.find(), apiClient: Get.find()));
 
   //controller
   Get.lazyPut(
@@ -36,5 +39,6 @@ Future<void> init() async {
   Get.lazyPut(
       () => RecomendedProductsController(recomendedProDuctRepo: Get.find()));
   Get.put(CartController(cartRepo: Get.find()), permanent: true);
-  Get.put(UserController(userRepo: Get.find()), permanent: true);
+  Get.put(UserController(userRepo: Get.find(),), permanent: true);
+  Get.put(LocationController(locationRepo: Get.find()), permanent: true);
 }

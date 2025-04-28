@@ -1,3 +1,4 @@
+import 'package:ecoomerce_dbestech/pages/address/add_address_page.dart';
 import 'package:ecoomerce_dbestech/pages/auth/signIn.dart';
 import 'package:ecoomerce_dbestech/pages/auth/sign_up.dart';
 import 'package:ecoomerce_dbestech/pages/home/home_page.dart';
@@ -17,7 +18,7 @@ class RouteHelpler {
   static const String cartPage = "/cart_page";
   static const String signIn = "/sign_in";
   static const String signUp = "/sign_up";
-
+  static const String address = "/address";
 
 
 
@@ -30,6 +31,7 @@ class RouteHelpler {
   static String getCartPage() => '$cartPage';
   static String getSignInPage()=> '$signIn';
   static String getSignUpPage() => '$signUp';
+  static String getAddresssPage() => '$address';
 
 
   static List<GetPage> routes = [
@@ -74,6 +76,12 @@ class RouteHelpler {
       name: signUp,
       page: () {
         return SignUp();//HomePage();
+      },
+    ),
+    GetPage(
+      name: address,
+      page: () {
+        return AddAddressPage();//HomePage();
       },
     ),
   ];
