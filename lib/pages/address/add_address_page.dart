@@ -30,12 +30,12 @@ class _AddAddressPageState extends State<AddAddressPage> {
     _isLogged = Get.find<AuthController>().isUserLoggedIn();
 
   // if he's logged in but u didnt get the info then go get it
-    if (_isLogged ) {
+    if (_isLogged&& Get
+        .find<UserController>()
+        .userModel == null ) {
       ///todo:hehe good luck
 
-      //&& Get
-      //         .find<UserController>()
-      //         .userModel == null
+
       Get.find<UserController>().getUserInfo();
      //if user has a saved location aka not first time then get it
 
@@ -74,15 +74,9 @@ _initialPosition=  LatLng(double.parse(Get
                 width: 2,color: Theme.of(context).primaryColor,
               )
             ),
-            child: Stack(
-              children: [
-                GoogleMap(initialCameraPosition: CameraPosition(target: _initialPosition,zoom: 17))
-              ],
-            ),
+            child: GoogleMap(initialCameraPosition: CameraPosition(target: _initialPosition,zoom: 17)),
           )
-
         ],
-
       ),
     );
   }
