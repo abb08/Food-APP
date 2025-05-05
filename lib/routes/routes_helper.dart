@@ -1,4 +1,5 @@
 import 'package:ecoomerce_dbestech/pages/address/add_address_page.dart';
+import 'package:ecoomerce_dbestech/pages/address/pickAddressMap.dart';
 import 'package:ecoomerce_dbestech/pages/auth/signIn.dart';
 import 'package:ecoomerce_dbestech/pages/auth/sign_up.dart';
 import 'package:ecoomerce_dbestech/pages/home/home_page.dart';
@@ -19,7 +20,7 @@ class RouteHelpler {
   static const String signIn = "/sign_in";
   static const String signUp = "/sign_up";
   static const String address = "/address";
-
+  static const String pickAddressMap = "/pick_address_map";
 
 
   static String getSplashScreen() => '$splashPage';
@@ -32,7 +33,7 @@ class RouteHelpler {
   static String getSignInPage()=> '$signIn';
   static String getSignUpPage() => '$signUp';
   static String getAddresssPage() => '$address';
-
+  static String getPickAddressMap() => '$pickAddressMap';
 
   static List<GetPage> routes = [
     GetPage(
@@ -57,6 +58,7 @@ class RouteHelpler {
     GetPage(
       name: recommendedFood,
       page: () {
+        //if u want to pass an argument from a page to another
         var pageId = Get.parameters['pageId'];
         return RecoFoodDetails(pageId: int.parse(pageId!));
       },
@@ -82,6 +84,18 @@ class RouteHelpler {
       name: address,
       page: () {
         return AddAddressPage();//HomePage();
+      },
+    ),
+    GetPage(
+      name: pickAddressMap,
+      page: () {
+        /*because u want to pass a whole screen as an argument to the next one
+        * */
+        PickAddressMap _pickAddress =Get.arguments;
+        //surprisengly u can pass this instead of the page and it someHow works
+        //how did he tie this to the page i mean ?!
+        //ok ok it works because u just passed it as an argument so it got the argument as it is
+        return _pickAddress;//HomePage();
       },
     ),
   ];

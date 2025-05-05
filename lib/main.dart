@@ -1,6 +1,7 @@
 import 'package:ecoomerce_dbestech/controllers/cart_controller.dart';
 import 'package:ecoomerce_dbestech/pages/auth/signIn.dart';
 import 'package:ecoomerce_dbestech/pages/auth/sign_up.dart';
+import 'package:ecoomerce_dbestech/utils/colors.dart';
 
 import '/controllers/popularProductsController.dart';
 import '/routes/routes_helper.dart';
@@ -33,7 +34,9 @@ class MyApp extends StatelessWidget {
     //  home:SignIn() ,
       initialRoute: RouteHelpler.getSplashScreen(),
         getPages: RouteHelpler.routes,
-
+theme: ThemeData(
+  primaryColor: AppColors.mainColor,
+),
     ) ;
   }
 }

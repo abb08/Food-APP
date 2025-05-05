@@ -25,7 +25,7 @@ class Apptextfiled extends StatelessWidget {
         vertical: Dimentions.hight15,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Dimentions.radius30),
+        borderRadius: BorderRadius.circular(Dimentions.radius15),
         color: Colors.white,
         boxShadow: [
           BoxShadow(
@@ -45,15 +45,15 @@ class Apptextfiled extends StatelessWidget {
             color: AppColors.mainColor,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimentions.radius30),
+            borderRadius: BorderRadius.circular(Dimentions.radius15),
             borderSide: BorderSide(color: Colors.white, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimentions.radius30),
+            borderRadius: BorderRadius.circular(Dimentions.radius15),
             borderSide: BorderSide(color: Colors.white, width: 1),
           ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(Dimentions.radius30),
+            borderRadius: BorderRadius.circular(Dimentions.radius15),
           ),
         ),
       ),

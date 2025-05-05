@@ -39,6 +39,7 @@ late SharedPreferences sharedPreferences;
 
   Future<Response> postData(String uri, dynamic body) async {
     try {
+      print('tokkkkkkkkkkkkkkkk${_mainHeaders["Authorization"]}');
       Response response = await post(uri, body,
           headers: _mainHeaders); //headers tells the backend what to expect
 

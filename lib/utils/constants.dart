@@ -10,10 +10,14 @@ class AppConstants {
   static const String token ="  ";
   static const String cartList ="Cart-list";
   static const String cartHistoryList ='cart-history-list';
-
+  static const String userAddress ="user_address";
 //auth end points
   static const String registerationUri ="/api/v1/auth/register";
+  static const String geoCodeUri ="/api/v1/config/geocode-api";
+  static const String zoneUri ="/api/v1/config/get-zone-id";
   static const String loginUri ="/api/v1/auth/login";
+  static const String addUserAddress ="/api/v1/customer/address/add";
+  static const String addressListUri ="/api/v1/customer/address/list";
   static const String userInfoUri ="/api/v1/customer/info";
 
   static const String phone ="";

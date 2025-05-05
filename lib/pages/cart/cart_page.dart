@@ -47,7 +47,7 @@ class CartPage extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(() => MainFoodPage());
+                        Get.toNamed(RouteHelpler.getInitial());
                       },
                       child: AppIcon(
                         icon: Icons.home_outlined,
@@ -77,155 +77,195 @@ class CartPage extends StatelessWidget {
                       builder: (controller) {
                         var _carList = controller.getItems;
 
-                        return ListView.builder(
-                            itemCount: _carList.length,
-                            itemBuilder: (_, index) {
-                              // int _total= int.parse(_carList[index].price.toString)  (_carList[index].quantity) ;
-                              return Container(
-                                height: Dimentions.hight20 * 5,
-                                width: double.infinity,
-                                margin:
-                                    EdgeInsets.only(bottom: Dimentions.hight10),
-                                child: Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        var popindex = Get.find<
-                                                PopularProductsController>()
-                                            .popularProductsList
-                                            .indexOf(_carList[index].product);
-                                        if (popindex >= 0) {
-                                          Get.toNamed(
-                                              RouteHelpler.getPopularFood(
-                                                  popindex));
-                                        } else {
-                                          var recoindex = Get.find<
-                                                  RecomendedProductsController>()
-                                              .recommendedProductsList
-                                              .indexOf(_carList[index].product);
-                                          Get.toNamed(
-                                              RouteHelpler.getRecommendedFood(
-                                                  recoindex));
-                                        }
-                                      },
-                                      child: Container(
-                                        height: Dimentions.hight20 * 5,
-                                        width: Dimentions.hight20 * 5,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimentions.radius20),
-                                          color: Colors.white,
-                                          image: DecorationImage(
-                                              image: NetworkImage(AppConstants
-                                                      .baseUrl +
-                                                  "/uploads/" +
-                                                  controller.getItems[index].img
-                                                      .toString()),
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: Dimentions.width10,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        height: Dimentions.hight20 * 5,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            BigText(
-                                              text: controller
-                                                  .getItems[index].name!,
-                                              color: Colors.black45,
+                        return _carList.isNotEmpty
+                            ? ListView.builder(
+                                itemCount: _carList.length,
+                                itemBuilder: (_, index) {
+                                  // int _total= int.parse(_carList[index].price.toString)  (_carList[index].quantity) ;
+                                  return Container(
+                                    height: Dimentions.hight20 * 5,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.only(
+                                        bottom: Dimentions.hight10),
+                                    child: Row(
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            var popindex = Get.find<
+                                                    PopularProductsController>()
+                                                .popularProductsList
+                                                .indexOf(
+                                                    _carList[index].product);
+                                            if (popindex >= 0) {
+                                              Get.toNamed(
+                                                  RouteHelpler.getPopularFood(
+                                                      popindex));
+                                            } else {
+                                              var recoindex = Get.find<
+                                                      RecomendedProductsController>()
+                                                  .recommendedProductsList
+                                                  .indexOf(
+                                                      _carList[index].product);
+                                              Get.toNamed(RouteHelpler
+                                                  .getRecommendedFood(
+                                                      recoindex));
+                                            }
+                                          },
+                                          child: Container(
+                                            height: Dimentions.hight20 * 5,
+                                            width: Dimentions.hight20 * 5,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      Dimentions.radius20),
+                                              color: Colors.white,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      AppConstants.baseUrl +
+                                                          "/uploads/" +
+                                                          controller
+                                                              .getItems[index]
+                                                              .img
+                                                              .toString()),
+                                                  fit: BoxFit.cover),
                                             ),
-                                            SmallText(text: 'Spicy'),
-                                            Row(
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: Dimentions.width10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            height: Dimentions.hight20 * 5,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                                  MainAxisAlignment.spaceEvenly,
                                               children: [
                                                 BigText(
-                                                  text: "\$ " +
-                                                      _carList[index]
-                                                          .price
-                                                          .toString(),
-                                                  color: Colors.redAccent,
+                                                  text: controller
+                                                      .getItems[index].name!,
+                                                  color: Colors.black45,
                                                 ),
-                                                Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                      vertical:
-                                                          Dimentions.hight10,
-                                                      horizontal:
-                                                          Dimentions.hight10),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            Dimentions
-                                                                .radius15),
-                                                    color: Colors.white,
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          controller.addItem(
-                                                              _carList[index]
-                                                                  .product!,
-                                                              -1);
-                                                          //    popBuilder.setQuantity(false);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.remove,
-                                                          color: AppColors
-                                                              .signColor,
-                                                        ),
+                                                SmallText(text: 'Spicy'),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    BigText(
+                                                      text: "\$ " +
+                                                          _carList[index]
+                                                              .price
+                                                              .toString(),
+                                                      color: Colors.redAccent,
+                                                    ),
+                                                    Container(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical:
+                                                                  Dimentions
+                                                                      .hight10,
+                                                              horizontal:
+                                                                  Dimentions
+                                                                      .hight10),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                Dimentions
+                                                                    .radius15),
+                                                        color: Colors.white,
                                                       ),
-                                                      SizedBox(
-                                                        width:
-                                                            Dimentions.width10 /
+                                                      child: Row(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: () {
+                                                              controller.addItem(
+                                                                  _carList[
+                                                                          index]
+                                                                      .product!,
+                                                                  -1);
+                                                              //    popBuilder.setQuantity(false);
+                                                            },
+                                                            child: Icon(
+                                                              Icons.remove,
+                                                              color: AppColors
+                                                                  .signColor,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: Dimentions
+                                                                    .width10 /
                                                                 2,
-                                                      ),
-                                                      BigText(
-                                                          text: _carList[index]
-                                                              .quantity
-                                                              .toString()),
-                                                      //popBuilder.inCartItems.toString()),
-                                                      SizedBox(
-                                                        width:
-                                                            Dimentions.width10 /
+                                                          ),
+                                                          BigText(
+                                                              text: _carList[
+                                                                      index]
+                                                                  .quantity
+                                                                  .toString()),
+                                                          //popBuilder.inCartItems.toString()),
+                                                          SizedBox(
+                                                            width: Dimentions
+                                                                    .width10 /
                                                                 2,
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              controller.addItem(
+                                                                  _carList[
+                                                                          index]
+                                                                      .product!,
+                                                                  1);
+                                                              //popBuilder.setQuantity(true);
+                                                            },
+                                                            child: Icon(
+                                                              Icons.add,
+                                                              color: AppColors
+                                                                  .signColor,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          controller.addItem(
-                                                              _carList[index]
-                                                                  .product!,
-                                                              1);
-                                                          //popBuilder.setQuantity(true);
-                                                        },
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          color: AppColors
-                                                              .signColor,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
                                             ),
-                                          ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                })
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: Dimentions.hight20 * 10,
+                                    width: double.infinity,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: Dimentions.hight20),
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                "assets/image/empty_cart.png"),
+                                            fit: BoxFit.contain)),
+                                  ),
+                                  Container(
+                                    color: AppColors.mainColor,
+                                    child: Center(
+                                      child: Text(
+                                        "Your Cart is Empty !!",
+                                        style: TextStyle(
+                                          fontSize: Dimentions.font20,
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  )
+                                ],
                               );
-                            });
+                        ;
                       },
                     )),
               ),
@@ -276,17 +316,19 @@ class CartPage extends StatelessWidget {
                       //CartController.;
                       if (Get.find<AuthController>().isUserLoggedIn()) {
                         cartController.addHisrory();
-                        if(Get.find<LocationController>().addressList.isEmpty){
-Get.toNamed(RouteHelpler.getAddresssPage());
-
+                        if (Get.find<LocationController>()
+                            .addressList
+                            .isEmpty) {
+                          Get.toNamed(RouteHelpler.getAddresssPage());
+                        }else{
+                        Get.offNamed(RouteHelpler.getInitial()) ;
                         }
 
-                        print("check out sucess");
+
                       } else {
                         showCustomSnackBar("u need to sign in first");
                         Get.toNamed(RouteHelpler.getSignInPage());
                       }
-
                     },
                     child: BigText(
                       text: "check out",
@@ -300,3 +342,4 @@ Get.toNamed(RouteHelpler.getAddresssPage());
         }));
   }
 }
+//
