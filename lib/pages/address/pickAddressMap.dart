@@ -1,4 +1,5 @@
 import 'package:ecoomerce_dbestech/controllers/locationController.dart';
+import 'package:ecoomerce_dbestech/pages/address/wedgits/searchLocationPage.dart';
 import 'package:ecoomerce_dbestech/routes/routes_helper.dart';
 import 'package:ecoomerce_dbestech/utils/colors.dart';
 import 'package:ecoomerce_dbestech/utils/dimentions.dart';
@@ -58,7 +59,6 @@ class _PickAddressMapState extends State<PickAddressMap> {
               child: Stack(
                 children: [
                   GoogleMap(
-
                     initialCameraPosition:
                         CameraPosition(target: _initialPosition, zoom: 17),
                     zoomControlsEnabled: false,
@@ -74,7 +74,10 @@ class _PickAddressMapState extends State<PickAddressMap> {
                     onCameraIdle: () {
                       locationController.updatePostion(_cameraPosition, false);
                     },
-
+                    onMapCreated: (GoogleMapController controller) {
+                      _mapController =
+                          controller; //make sure that its initiated before passing it to the next page
+                    },
                   ),
                   Center(
                     child: !locationController.loading
@@ -98,24 +101,37 @@ class _PickAddressMapState extends State<PickAddressMap> {
                             BorderRadius.circular(Dimentions.radius20 / 2),
                         color: AppColors.mainColor,
                       ),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on_sharp,
-                            color: AppColors.yellowColor,
-                          ),
-                          Expanded(
-                            child: Text(
-                              locationController.pickPlacemark.name ?? "",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: Dimentions.font16,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                      child: InkWell(
+                        //notice that u can make a page as custom dialogue
+                        onTap: () => Get.dialog(LoactionDialogue(
+                          mapController: _mapController,
+                        ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_sharp,
+                              color: AppColors.yellowColor,
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: Text(
+                                locationController.pickPlacemark.name ?? "",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Dimentions.font16,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            SizedBox(),
+                            Icon(
+                              Icons.search,
+                              size: 25,
+                              color: AppColors.yellowColor,
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -124,14 +140,21 @@ class _PickAddressMapState extends State<PickAddressMap> {
                     left: Dimentions.width20,
                     right: Dimentions.width20,
                     child: locationController.isLoading
-                        ? Center(child: Container(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(),
-                    ),)
+                        ? Center(
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
                         : Custombutton(
-                            buttonText: locationController.inZone?widget.fromAddress?"Pick Address":"Pick location":"Service is not available in this area",
-                            onPressed: (locationController.buttonDisabled||locationController.loading)
+                            buttonText: locationController.inZone
+                                ? widget.fromAddress
+                                    ? "Pick Address"
+                                    : "Pick location"
+                                : "Service is not available in this area",
+                            onPressed: (locationController.buttonDisabled ||
+                                    locationController.loading)
                                 ? null
                                 : () {
                                     if (locationController.pickPosition != 0 &&

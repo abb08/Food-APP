@@ -13,12 +13,6 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ecoomerce_dbestech/controllers/userController.dart';
-import 'package:ecoomerce_dbestech/controllers/locationController.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/foundation.dart';
-import 'package:ecoomerce_dbestech/controllers/userController.dart';
-
-import '../../widgets/appIcon.dart';
 
 class AddAddressPage extends StatefulWidget {
   const AddAddressPage({super.key});

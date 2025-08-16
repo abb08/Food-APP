@@ -67,8 +67,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 )
               : CircularProgressIndicator();
         }),
-        //dots indecator
 
+
+        //dots indecator
         GetBuilder<PopularProductsController>(builder: (popularProducts) {
           return DotsIndicator(
             dotsCount: popularProducts.popularProductsList.isEmpty
@@ -89,6 +90,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
         SizedBox(
           height: Dimentions.hight30,
         ),
+
+
+
 
         //recommended food
         Container(
@@ -170,28 +174,25 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       BigText(
                                           text: recomendedProduct
                                               .recommendedProductsList[index]
                                               .name),
-                                      SizedBox(
-                                        height: Dimentions.hight10,
-                                      ),
+
                                       SmallText(
                                           text: recomendedProduct
                                               .recommendedProductsList[index]
                                               .description),
-                                      SizedBox(
-                                        height: Dimentions.hight10,
-                                      ),
+
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
                                           IconAndTextWidget(
                                               icon: Icons.circle,
+
                                               text: 'normal',
                                               iconColor: AppColors.iconColor1),
                                           IconAndTextWidget(

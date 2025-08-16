@@ -23,7 +23,7 @@ print(xx.body["results"][0]['formatted_address'].toString());*/
     return await apiClient.getData('${AppConstants.geoCodeUri}'
         '?lat=${latlng.latitude}&lng=${latlng.longitude}');
 
-      //xx;
+    //xx;
   }
 
   String getUserAddress() {
@@ -49,9 +49,10 @@ print(xx.body["results"][0]['formatted_address'].toString());*/
     return await sharedPrefrences.setString(
         AppConstants.userAddress, userAddress);
   }
-///gets the zone of selected location and if it has service in it
+
+  ///gets the zone of selected location and if it has service in it
   Future<Response> getZone(String lat, String long) async {
- /*
+    /*
   for debugging
   print('lat:$lat------------lang:$long');
 
@@ -59,9 +60,19 @@ print(xx.body["results"][0]['formatted_address'].toString());*/
         .getData("${AppConstants.zoneUri}?lat=$lat&lng=$long");
 
     print("XXXXXXXXXXXXXXXXXXXXX ${x.body.toString()}");
- */   return await apiClient
+ */
+    return await apiClient
         .getData("${AppConstants.zoneUri}?lat=$lat&lng=$long");
 
     //x;
+  }
+
+  Future<Response> searchLocation(String text) async {
+    return apiClient
+        .getData('${AppConstants.searchLocationUri}?search_text=$text');
+  }
+  Future<Response> setLocation(String placeId) async {
+    return apiClient
+        .getData('${AppConstants.placeDetailsUri}?placeid=$placeId');
   }
 }

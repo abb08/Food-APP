@@ -1,13 +1,18 @@
 import 'dart:convert';
 
+import 'package:ecoomerce_dbestech/data/api/apiChecker.dart';
 import 'package:ecoomerce_dbestech/data/api/api_client.dart';
 import 'package:ecoomerce_dbestech/data/repositoreis/location_repo.dart';
 import 'package:ecoomerce_dbestech/models/addressModel.dart';
 import 'package:ecoomerce_dbestech/models/responseModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+//import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:google_maps_webservice/src/places.dart';
 
 class LocationController extends GetxController implements GetxService {
 //final ApiClient apiClient;
@@ -44,6 +49,11 @@ class LocationController extends GetxController implements GetxService {
   bool get loading => _loading;
 
   bool _updateAddressData = true;
+
+/*
+* for the suggestions autocomplete */
+  //the object type 'Prediction' is from the backage flutter_google_places
+  List<Prediction> _predictionList = [];
 
   /*
   * zone stuff*/
@@ -104,6 +114,8 @@ class LocationController extends GetxController implements GetxService {
           fromAddress
               ? _placemark = Placemark(name: address)
               : _pickPlacemark = Placemark(name: address);
+        } else {
+          _changAddress = true;
         }
         ResponseModel _responseModel = await getZone(
             updatePosition.target.latitude.toString(),
@@ -115,6 +127,7 @@ class LocationController extends GetxController implements GetxService {
       }
     } else {
       _updateAddressData = true;
+
       //this var is useless if u ask me but what do i know
     }
     //print("=============${placemark.name.toString()}");
@@ -127,7 +140,7 @@ class LocationController extends GetxController implements GetxService {
     Response response = await locationRepo.getAddressFromGoogle(latlang);
     if (response.body["status"] == "OK") {
       _addrees = response.body["results"][0]['formatted_address'].toString();
-     } else {
+    } else {
       print("trouble gettin google location from server");
     }
 
@@ -250,4 +263,77 @@ class LocationController extends GetxController implements GetxService {
 
     return _responseModel;
   }
+
+  ///the build context is a must for the place where ur gonna call it in but ur not really using it
+  Future<List<Prediction>> searchLocation(
+      BuildContext context, String text) async {
+    print("texxxxxxxxt $text");
+
+    ///xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    if (text.isNotEmpty) {
+      Response response = await locationRepo.searchLocation(text);
+
+      ///the status ok is from google since they are the once giving u the body
+      if (response.statusCode == 200 && response.body['status'] == 'OK') {
+        _predictionList = [];
+        //cause each time u want to get totally different predictions
+        // because u get the response as json from the server
+
+        response.body['predictions']
+            .forEach((one) => _predictionList.add(Prediction.fromJson(one)));
+        print('pridection list ${_predictionList.toString()}');
+      } else {
+        print('a77777a');
+
+        ///notice that we called the class directly without instance
+        ///cause its static it doesnt hold any state or data just a static method
+        //ApiChecker.checkApi(response);
+      }
+    }
+    return _predictionList;
+  }
+
+  setLocation(
+      String placeId, String address, GoogleMapController mapController) async {
+    _loading = true;
+    update();
+    PlacesDetailsResponse details;
+    Response response = await locationRepo.setLocation(placeId);
+    details = PlacesDetailsResponse.fromJson(response.body);
+    _pickPosition = Position(
+        longitude: details.result.geometry!.location.lng,
+        latitude: details.result.geometry!.location.lat,
+        timestamp: DateTime.now(),
+        accuracy: 1,
+        altitude: 1,
+        altitudeAccuracy: 1,
+        heading: 1,
+        headingAccuracy: 1,
+        speed: 1,
+        speedAccuracy: 1);
+    _pickPlacemark = Placemark(name: address);
+    _changAddress = false;
+    if (!mapController.isNull) {
+      mapController.animateCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(
+                details.result.geometry!.location.lat,
+                details.result.geometry!.location.lng,
+              ),
+              zoom: 16),
+        ),
+      );
+    }
+    _loading = false;
+    update();
+  }
 }
+/*
+*todo: there is a bug and its that
+the map on address page isnt updated
+and the location is updated but then it switches back to the map's location
+i think it sticks to the initial place so
+i think u have to make a condition since the location gets passed back
+correctly but it changes to the default
+*/

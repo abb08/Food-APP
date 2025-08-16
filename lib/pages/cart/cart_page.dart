@@ -136,12 +136,12 @@ class CartPage extends StatelessWidget {
                                         ),
                                         Expanded(
                                           child: Container(
-                                            height: Dimentions.hight20 * 5,
+                                            //height: Dimentions.hight20 * 5,
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment.spaceBetween,
                                               children: [
                                                 BigText(
                                                   text: controller
@@ -166,7 +166,7 @@ class CartPage extends StatelessWidget {
                                                           EdgeInsets.symmetric(
                                                               vertical:
                                                                   Dimentions
-                                                                      .hight10,
+                                                                      .hight10/2,
                                                               horizontal:
                                                                   Dimentions
                                                                       .hight10),
@@ -190,6 +190,7 @@ class CartPage extends StatelessWidget {
                                                             },
                                                             child: Icon(
                                                               Icons.remove,
+
                                                               color: AppColors
                                                                   .signColor,
                                                             ),
